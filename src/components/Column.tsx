@@ -1,16 +1,24 @@
-/* eslint-disable react/prop-types */
-// src/components/Column.js
 import React, { useState } from 'react';
+import { Todo } from '../App';
 import TodoItem from './TodoItem';
 
-const Column = ({ title, todos, addTodo, moveTodo }) => {
-  const [newTodoTitle, setNewTodoTitle] = useState('');
-  const [newTodoDescription, setNewTodoDescription] = useState('');
+interface ColumnProps {
+  title: string;
+  todos: Todo[];
+  addTodo?: (title: string, description: string) => void;
+  moveTodo: (id: number, newStatus: 'new' | 'ongoing' | 'done') => void;
+}
+
+const Column: React.FC<ColumnProps> = ({ title, todos, addTodo, moveTodo }) => {
+  const [newTodoTitle, setNewTodoTitle] = useState<string>('');
+  const [newTodoDescription, setNewTodoDescription] = useState<string>('');
 
   const handleAddTodo = () => {
-    addTodo(newTodoTitle, newTodoDescription);
-    setNewTodoTitle('');
-    setNewTodoDescription('');
+    if (addTodo) {
+      addTodo(newTodoTitle, newTodoDescription);
+      setNewTodoTitle('');
+      setNewTodoDescription('');
+    }
   };
 
   return (

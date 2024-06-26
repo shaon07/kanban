@@ -1,23 +1,29 @@
 import React, { useState } from 'react';
+import { Todo } from '../App';
 
-const TodoItem = ({ todo, moveTodo }) => {
-  const [dueDate, setDueDate] = useState(new Date().toISOString().slice(0, 16)); // Default to current date and time
-  const [showMenu, setShowMenu] = useState(false);
-  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+interface TodoItemProps {
+  todo: Todo;
+  moveTodo: (id: number, newStatus: 'new' | 'ongoing' | 'done') => void;
+}
 
-  const statusColors = {
+const TodoItem: React.FC<TodoItemProps> = ({ todo, moveTodo }) => {
+  const [dueDate, setDueDate] = useState<string>(new Date().toISOString().slice(0, 16)); // Default to current date and time
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [menuPosition, setMenuPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  const statusColors: { [key: string]: string } = {
     new: 'bg-blue-200',
     ongoing: 'bg-orange-200',
     done: 'bg-green-200',
   };
 
-  const handleContextMenu = (e) => {
+  const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
     setShowMenu(true);
     setMenuPosition({ x: e.pageX, y: e.pageY });
   };
 
-  const handleMove = (newStatus) => {
+  const handleMove = (newStatus: 'new' | 'ongoing' | 'done') => {
     moveTodo(todo.id, newStatus);
     setShowMenu(false);
   };

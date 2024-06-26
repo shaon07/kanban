@@ -1,10 +1,16 @@
-// src/App.js
 import React, { useState } from 'react';
 import Column from './components/Column';
 import './App.css';
 
-const App = () => {
-  const [todos, setTodos] = useState([
+export interface Todo {
+  id: number;
+  title: string;
+  description: string;
+  status: 'new' | 'ongoing' | 'done';
+}
+
+const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>([
     { id: 1, title: 'Admin Panel Test Cases', description: '', status: 'new' },
     { id: 2, title: 'Seller Panel Test Cases', description: '', status: 'new' },
     { id: 3, title: 'Sales Manager Panel', description: '', status: 'new' },
@@ -13,8 +19,8 @@ const App = () => {
     { id: 6, title: 'Questions', description: '', status: 'ongoing' },
   ]);
 
-  const addTodo = (title, description) => {
-    const newTodo = {
+  const addTodo = (title: string, description: string) => {
+    const newTodo: Todo = {
       id: Date.now(),
       title,
       description,
@@ -23,7 +29,7 @@ const App = () => {
     setTodos([newTodo, ...todos]);
   };
 
-  const moveTodo = (id, newStatus) => {
+  const moveTodo = (id: number, newStatus: 'new' | 'ongoing' | 'done') => {
     setTodos(todos.map(todo => (todo.id === id ? { ...todo, status: newStatus } : todo)));
   };
 
